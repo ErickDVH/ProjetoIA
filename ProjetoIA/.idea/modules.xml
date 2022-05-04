@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Projeto-_20_/Projeto-20220410/MummyMazeShowSolution/MummyMazeShowSolution.iml" filepath="$PROJECT_DIR$/Projeto-_20_/Projeto-20220410/MummyMazeShowSolution/MummyMazeShowSolution.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Projeto-_20_/Projeto-20220410/MumyMazeShowSolutionExample/MumyMazeShowSolutionExample.iml" filepath="$PROJECT_DIR$/Projeto-_20_/Projeto-20220410/MumyMazeShowSolutionExample/MumyMazeShowSolutionExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Projeto-ia.iml" filepath="$PROJECT_DIR$/.idea/Projeto-ia.iml" />
+    </modules>
+  </component>
+</project>
