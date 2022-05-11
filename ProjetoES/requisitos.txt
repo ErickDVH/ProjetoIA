@@ -1,0 +1,4 @@
+Requisitos:
+Gestao de veiculos:
+Registar informacoes(matrícula, marca, modelo, anterior dono, nº de
+donos, características do veículo)
