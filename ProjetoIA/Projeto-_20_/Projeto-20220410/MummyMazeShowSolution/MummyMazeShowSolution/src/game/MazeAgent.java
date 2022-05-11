@@ -24,15 +24,21 @@ public class MazeAgent extends Agent<MazeState> {
     public MazeState readInitialStateFromFile(File file) throws IOException{
         Scanner scanner = new Scanner(file);
 
-        String state = "";
+        char[][] matrix = new char [13][13];
 
-        for(int i = 0;i<file.length();i++){
-            state = state+"\n"+scanner.next().substring(i)+"\n";
-            scanner.nextLine();
+        for(int i = 0;i<13;i++){
+            String linea = scanner.nextLine();
+            matrix[i] = linea.toCharArray();
+
         }
-        initialEnvironment = new MazeState(state);
+        initialEnvironment = new MazeState(matrix);
         resetEnvironment();
         return environment;
+
     }
 
+
+    public MazeState getInitialState() {
+        return initialEnvironment;
+    }
 }

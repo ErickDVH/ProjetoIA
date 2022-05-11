@@ -10,4 +10,13 @@ public class Statistics {
         numGeneratedNodes = 1;
         maxFrontierSize = 0;
     }
+
+    @Override
+    public String toString() {
+        return "Statistics{" +
+                "numExpandedNodes=" + numExpandedNodes +
+                ", numGeneratedNodes=" + numGeneratedNodes +
+                ", maxFrontierSize=" + maxFrontierSize +
+                '}';
+    }
 }

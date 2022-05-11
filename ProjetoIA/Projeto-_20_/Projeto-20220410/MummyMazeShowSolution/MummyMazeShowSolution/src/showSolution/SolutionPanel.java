@@ -124,7 +124,7 @@ public class SolutionPanel extends JFrame{
 		p.pack();
 		Thread t = new Thread(){
 			public void run(){
-				p.setState(state);
+//				p.setState(state);
 				p.setShowSolutionCost(false);
 				try {
 					sleep(1000);
@@ -138,9 +138,9 @@ public class SolutionPanel extends JFrame{
 	}
 
 	
-	private void setState(String state){
-		gameArea.setState(state);
-	}
+//	private void setState(String state){
+//		gameArea.setState(state);
+//	}
 
 	public void setShowSolutionCost(boolean showSolutionCost) {
 		gameArea.setShowSolutionCost(showSolutionCost);

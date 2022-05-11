@@ -1,4 +1,8 @@
 package showSolution;
+import game.MazeEvent;
+import game.MazeListener;
+import game.MazeState;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -9,7 +13,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
-public class GameArea extends JPanel {
+public class GameArea extends JPanel implements MazeListener {
 	
 	private Image trap;
 	private Image key;
@@ -32,15 +36,20 @@ public class GameArea extends JPanel {
 	private int xStart = 63;
 	private int yStart = 79;
 	
-	private String state = null;
+	private MazeState state;
 	private boolean showSolutionCost;
 	private double solutionCost;
 	
-	public GameArea(){
+	public GameArea(MazeState state){
 		super();
 		setPreferredSize(new Dimension(486,474));
 		loadImages();
 		showSolutionCost = true;
+		if(state == null){
+			throw new NullPointerException("Puzzle cannot be null");
+		}
+		this.state = state;
+		this.state.addListener(this);
 	}
 	
 	private void loadImages(){
@@ -71,11 +80,12 @@ public class GameArea extends JPanel {
 		if(state == null){
 			return;
 		}
-		String[] splitString = (state.split("\\n"));
+
+		char[][] matrix = state.getMatrix();
 		
 		for(int i = 0; i < 13; i++) {
 			for(int j = 0; j < 13; j++) {				
-				switch(splitString[i].charAt(j)) {
+				switch(matrix[i][j]) {
 					case '-' : g.drawImage(wallHorizontal,xStart + j/2 * 60,yStart + i/2 * 60 - 6,this); break;
 					case '=' : g.drawImage(doorHorizontalClosed,xStart + j/2 * 60,yStart + i/2 * 60 - 6,this); break;
 					case '_' : g.drawImage(doorHorizontalOpen,xStart + j/2 * 60,yStart + i/2 * 60 - 6,this); break;
@@ -101,7 +111,7 @@ public class GameArea extends JPanel {
 		
 	}
 	
-	public void setState(String state){
+	public void setState(MazeState state){
 		this.state = state;
 		repaint();		
 	}
@@ -113,5 +123,23 @@ public class GameArea extends JPanel {
 	public void setSolutionCost(double solutionCost){
 		this.solutionCost = solutionCost;
 	}
+	public void setMaze(MazeState state){
+		if(state == null){
+			throw new NullPointerException("Puzzle cannot be null");
+		}
+		this.state.removeListener(this);
+		this.state = state;
+		state.addListener(this);
+		repaint();
+	}
 
+	@Override
+	public void mazeChanged(MazeEvent pe) {
+		repaint();
+		try{
+			Thread.sleep(500);
+		}catch(InterruptedException ignore){
+
+		}
+	}
 }

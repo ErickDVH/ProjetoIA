@@ -3,14 +3,16 @@ package game;
 import agent.Action;
 import agent.State;
 
+import java.util.ArrayList;
+
 public class MazeState extends State implements Cloneable {
 
-    static final String GOAL = "S";
+    static LivingThings GOAL;
     public static final int SIZE = 6;
-    private final char[][] matrix;
+    private char[][] matrix;
     private Hero hero;
-    private int heroCol;
     private String state;
+    static LivingThings goalHeroPosition;
 
     public MazeState(String state){
         this.state = state;
@@ -23,69 +25,115 @@ public class MazeState extends State implements Cloneable {
                     case 'H':
                         hero = new Hero(i,j);
                     break;
+                    case 'S':
+                        GOAL = new LivingThings(i,j);
                 }
             }
         }
+        computeGoalPosition();
+    }
+    public MazeState(char[][] matrix){
+        this.matrix = new char[matrix.length][matrix.length];
+        for(int i=0;i<13;i++){
+            for(int j=0;j<13;j++){
+                this.matrix[i][j] = matrix[i][j];
+                switch (matrix[i][j]){
+                    case 'H':
+                        hero = new Hero(i,j);
+                        break;
+                    case 'S':
+                        GOAL = new LivingThings(i,j);
+                }
+            }
+        }
+        computeGoalPosition();
     }
 
+    public boolean isGoal(){
+        return goalHeroPosition.getLinea() == hero.getLinea() && goalHeroPosition.getColuna() == hero.getColuna();
+    }
 
+    private void computeGoalPosition(){
+        if(GOAL.getColuna() == 0){
+            goalHeroPosition = new LivingThings(GOAL.getLinea(),GOAL.getColuna()+1);
+        }
+        if(GOAL.getLinea() == 0){
+            goalHeroPosition = new LivingThings(GOAL.getLinea()+1,GOAL.getColuna());
+        }
+        if(GOAL.getLinea() == 12){
+            goalHeroPosition = new LivingThings(GOAL.getLinea()-1,GOAL.getColuna());
+        }
+        if(GOAL.getColuna() == 12){
+            goalHeroPosition = new LivingThings(GOAL.getLinea(),GOAL.getColuna()-1);
+        }
+
+    }
 
     @Override
     public MazeState clone() {
-        return new MazeState(state);
+        return new MazeState(matrix);
     }
 
     @Override
     public void executeAction(Action action) {
         action.execute(this);
+        mazeChanged(null);
     }
     public boolean canMoveUp() {
-        if(matrix[hero.getX()][hero.getY()-1] != '|'){
+        if(hero.getLinea() != 1){
             return true;
         }
         return false;
     }
 
     public boolean canMoveRight() {
-        if(matrix[hero.getX()+1][hero.getY()] != '|'){
+        if(hero.getColuna() != 11){
             return true;
         }
         return false;
     }
 
     public boolean canMoveDown() {
-        if(matrix[hero.getX()][hero.getY()+1] != '|'){
+        if(hero.getLinea() != 11){
             return true;
         }
         return false;
     }
 
     public boolean canMoveLeft() {
-        if(matrix[hero.getX()-1][hero.getY()] != '|'){
+        if(hero.getColuna() != 1){
             return true;
         }
         return false;
     }
 
     public boolean cantMove() {
-        if(matrix[hero.getX()][hero.getY()] != '|'){
-            return true;
-        }
-        return false;
+        return true;
     }
 
 
     public void moveUp() {
+        matrix[hero.getLinea()][hero.getColuna()] = '.';
+        matrix[hero.getLinea()-2][hero.getColuna()] = 'H';
+        hero.setLinea(hero.getLinea()-2);
     }
 
     public void moveRight() {
-        matrix[hero.getX()][hero.getY()] = matrix[hero.getX()][hero.getY()+1];
+        matrix[hero.getLinea()][hero.getColuna()] = '.';
+        matrix[hero.getLinea()][hero.getColuna()+2] = 'H';
+        hero.setColuna(hero.getColuna()+2);
     }
 
     public void moveDown() {
+        matrix[hero.getLinea()][hero.getColuna()] = '.';
+        matrix[hero.getLinea()+2][hero.getColuna()] = 'H';
+        hero.setLinea(hero.getLinea()+2);
     }
 
     public void moveLeft() {
+        matrix[hero.getLinea()][hero.getColuna()] = '.';
+        matrix[hero.getLinea()][hero.getColuna()-2] = 'H';
+        hero.setColuna(hero.getColuna()-2);
     }
 
     public void dontMove() {
@@ -100,5 +148,29 @@ public class MazeState extends State implements Cloneable {
     @Override
     public boolean equals(Object obj) {
         return false;
+    }
+
+
+    private transient ArrayList<MazeListener> listeners = new ArrayList<MazeListener>(3);
+
+    public synchronized void removeListener(MazeListener l) {
+        if (listeners != null && listeners.contains(l)) {
+            listeners.remove(l);
+        }
+    }
+
+    public synchronized void addListener(MazeListener l) {
+        if (!listeners.contains(l)) {
+            listeners.add(l);
+        }
+    }
+    public void mazeChanged(MazeListener pe) {
+        for (MazeListener listener : listeners) {
+            listener.mazeChanged(null);
+        }
+    }
+
+    public char[][] getMatrix() {
+        return matrix;
     }
 }

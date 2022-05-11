@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class MazeProblem extends Problem<MazeState> {
-    private final MazeState goalState;
+public class MazeProblem extends Problem<MazeState> {
+    private final LivingThings goalState;
 
     public MazeProblem(MazeState initialState){
         super(initialState, new ArrayList<>(4));
@@ -18,7 +18,7 @@ public abstract class MazeProblem extends Problem<MazeState> {
         this.actions.add(new ActionLeft());
         this.actions.add(new ActionStatic());
 
-        this.goalState = new MazeState(MazeState.GOAL);
+        this.goalState = new LivingThings(MazeState.GOAL.getLinea(),MazeState.GOAL.getColuna());
     }
 
 
@@ -47,12 +47,14 @@ public abstract class MazeProblem extends Problem<MazeState> {
         return possibleActions;
     }
 
-    public MazeState getGoalState() {
+
+
+    public LivingThings getGoalState() {
         return goalState;
     }
 
     @Override
-    public MazeState getSucessor(MazeState state, Action action) {
+    public MazeState getSuccessor(MazeState state, Action action) {
         MazeState successor = state.clone();
         action.execute(successor);
         return successor;
@@ -60,7 +62,7 @@ public abstract class MazeProblem extends Problem<MazeState> {
 
     @Override
     public boolean isGoal(MazeState state) {
-        return state.equals(goalState);
+        return state.isGoal();
     }
 
 

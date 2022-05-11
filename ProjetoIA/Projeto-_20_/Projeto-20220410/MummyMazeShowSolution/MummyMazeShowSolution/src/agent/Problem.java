@@ -15,7 +15,6 @@ public abstract class Problem <S extends State> {
         this.actions = actions;
     }
 
-    public abstract S getSucessor(S state,Action action);
 
     public abstract boolean isGoal(S state);
 
@@ -42,5 +41,6 @@ public abstract class Problem <S extends State> {
     public abstract List<S> executeActions(S state);
     public abstract List<Action<S>> getActions(S state);
     public abstract S getSuccessor(S state, Action action);
+
 
 }

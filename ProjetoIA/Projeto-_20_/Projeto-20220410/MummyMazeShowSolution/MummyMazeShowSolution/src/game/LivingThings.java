@@ -2,18 +2,25 @@ package game;
 
 public class LivingThings {
 
-    private int x,y;
+    private int linea,coluna;
 
-    public LivingThings(int x,int y){
-        this.x = x;
-        this.y = y;
+    public LivingThings(int linea,int coluna){
+        this.linea = linea;
+        this.coluna = coluna;
     }
 
-    public int getX(){
-        return x;
+    public int getLinea(){
+        return linea;
     }
-    public int getY(){
-        return y;
+    public int getColuna(){
+        return coluna;
     }
 
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public void setColuna(int coluna) {
+        this.coluna = coluna;
+    }
 }

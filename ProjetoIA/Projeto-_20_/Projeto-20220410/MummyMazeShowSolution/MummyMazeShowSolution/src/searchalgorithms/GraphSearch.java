@@ -3,6 +3,7 @@ package searchalgorithms;
 import agent.Problem;
 import agent.Solution;
 import agent.State;
+import game.MazeState;
 import utils.NodeCollection;
 
 import java.util.HashSet;
@@ -31,8 +32,12 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchAlg
         frontier.add(new Node(initialState));
         while (!frontier.isEmpty() && !stopped) {
             Node node = frontier.poll();
-            if(problem.isGoal(node.getState())){            //o node serve para encapsular o estado
+            if(problem.isGoal(node.getState())){
+                //o node serve para encapsular o estado
+                statistics.toString();
+
                 return new Solution(problem,node);
+
             }
             explored.add(node.getState());
             List<State> successors = problem.executeActions(node.getState());
@@ -40,6 +45,8 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchAlg
 
             computeStatistics(successors.size());
         }
+
+        statistics.toString();
         return null;
     }
 

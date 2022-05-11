@@ -80,4 +80,21 @@ public class Agent<E extends State> {
             environment.executeAction(action);
         }
     }
+    public E getEnvironment() {
+        return environment;
+    }
+    public String getSearchReport() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(searchAlgorithm + "\n");
+        if (solution == null) {
+            sb.append("No solution found\n");
+        } else {
+            sb.append("Solution cost: " + Double.toString(solution.getCost()) + "\n");
+        }
+        sb.append("Num of expanded nodes: " + searchAlgorithm.getStatistics().numExpandedNodes + "\n");
+        sb.append("Max frontier size: " + searchAlgorithm.getStatistics().maxFrontierSize + "\n");
+        sb.append("Num of generated nodes: " + searchAlgorithm.getStatistics().numGeneratedNodes+ "\n");
+
+        return sb.toString();
+    }
 }
