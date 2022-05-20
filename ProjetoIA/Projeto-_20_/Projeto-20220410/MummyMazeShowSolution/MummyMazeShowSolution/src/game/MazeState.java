@@ -4,6 +4,7 @@ import agent.Action;
 import agent.State;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MazeState extends State implements Cloneable {
 
@@ -141,13 +142,22 @@ public class MazeState extends State implements Cloneable {
     }
 
     @Override
-    public int hashCode() {
-        return 0;
+    public boolean equals(Object other) {
+        if (!(other instanceof MazeState)) {
+            return false;
+        }
+
+        MazeState o = (MazeState) other;
+        if (matrix.length != o.matrix.length) {
+            return false;
+        }
+
+        return Arrays.deepEquals(matrix, o.matrix);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return false;
+    public int hashCode() {
+        return 97 * 7 + Arrays.deepHashCode(this.matrix);
     }
 
 
