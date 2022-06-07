@@ -13,7 +13,8 @@ public class MazeAgent extends Agent<MazeState> {
     public MazeAgent(MazeState environment){
         super(environment);
         initialEnvironment = environment.clone();
-
+        heuristics.add(new HeuristicTilesOutOfPlace());
+        heuristic = heuristics.get(0);
     }
 
     public MazeState resetEnvironment(){

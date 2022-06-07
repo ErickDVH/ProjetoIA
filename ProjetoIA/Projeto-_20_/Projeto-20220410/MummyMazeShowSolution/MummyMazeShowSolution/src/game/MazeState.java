@@ -15,6 +15,8 @@ public class MazeState extends State implements Cloneable {
     private String state;
     static LivingThings goalHeroPosition;
     private WhiteMummy mummy;
+    private int[] linesfinalMatrix = {};
+    private int[] colsfinalMatrix ={};
 
     public MazeState(String state){
         this.state = state;
@@ -29,6 +31,9 @@ public class MazeState extends State implements Cloneable {
                     break;
                     case 'S':
                         GOAL = new LivingThings(i,j);
+                        break;
+                    case 'M':
+                        mummy = new WhiteMummy(i,j);
                         break;
                 }
             }
@@ -46,6 +51,9 @@ public class MazeState extends State implements Cloneable {
                         break;
                     case 'S':
                         GOAL = new LivingThings(i,j);
+                        break;
+                    case 'M':
+                        mummy = new WhiteMummy(i,j);
                         break;
                 }
             }
@@ -83,30 +91,31 @@ public class MazeState extends State implements Cloneable {
         mazeChanged(null);
     }
     public boolean canMoveUp() {
-        if(hero.getLinea() != 1 && matrix[hero.getLinea()+1][hero.getColuna()] != '-'){
+        if(hero.getLinea() != 1 && matrix[hero.getLinea()-1][hero.getColuna()] != '-' || doorOpen()){
             return true;
         }
         return false;
     }
 
     public boolean canMoveRight() {
-        if(hero.getColuna() != 11 && matrix[hero.getLinea()][hero.getColuna()+1] != '|'){
+        if(hero.getColuna() != 11 && matrix[hero.getLinea()][hero.getColuna()+1] != '|' || doorOpen()){
             return true;
         }
         return false;
     }
 
     public boolean canMoveDown() {
-        if(hero.getLinea() != 11 && matrix[hero.getLinea()+1][hero.getColuna()] != '-'){
+        if(hero.getLinea() != 11 && matrix[hero.getLinea()+1][hero.getColuna()] != '-' || doorOpen()){
             return true;
         }
         return false;
     }
 
     public boolean canMoveLeft() {
-        if(hero.getColuna() != 1 && matrix[hero.getLinea()][hero.getColuna()-1] != '|'){
+        if(hero.getColuna() != 1 && matrix[hero.getLinea()][hero.getColuna()-1] != '|' || doorOpen()){
             return true;
         }
+
         return false;
     }
 
@@ -130,7 +139,7 @@ public class MazeState extends State implements Cloneable {
     public void moveDown() {
         matrix[hero.getLinea()][hero.getColuna()] = '.';
         matrix[hero.getLinea()+2][hero.getColuna()] = 'H';
-        hero.setLinea(hero.getLinea()+2);
+        hero.setLinea(hero.getLinea() + 2);
     }
 
     public void moveLeft() {
@@ -140,7 +149,16 @@ public class MazeState extends State implements Cloneable {
     }
 
     public void dontMove() {
-
+    }
+    public boolean doorOpen(){
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                if(matrix[i][j] == '=' || matrix[i][j] == '"'){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -184,5 +202,20 @@ public class MazeState extends State implements Cloneable {
 
     public char[][] getMatrix() {
         return matrix;
+    }
+
+
+    public double computeTilesOutOfPlace(LivingThings goalState) {
+        double h = 0;
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                if(matrix[i][j] != 0) {
+                    if (matrix[i][j] != goalState.getLinea()) {
+                        h += 1;
+                    }
+                }
+            }
+        }
+        return h;
     }
 }
