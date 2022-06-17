@@ -92,21 +92,34 @@ public class MazeState extends State implements Cloneable {
         System.out.println(this);
     }
     public boolean canMoveUp() {
+<<<<<<< HEAD
         if(hero.getLinea() != 1 && matrix[hero.getLinea()-1][hero.getColuna()] != '-' && matrix[hero.getLinea()-2][hero.getColuna()] == '.'){
+=======
+
+        if(hero.getLinea() != 1 && matrix[hero.getLinea()-1][hero.getColuna()] != '-'|| doorOpen()){
+>>>>>>> a4b52da4c6eec44298026819556ecd6ddeb46e01
             return true;
         }
         return false;
     }
 
     public boolean canMoveRight() {
+<<<<<<< HEAD
         if(hero.getColuna() != 11 && matrix[hero.getLinea()][hero.getColuna()+1] != '|' && matrix[hero.getLinea()][hero.getColuna()+2] == '.'){
+=======
+        if(hero.getColuna() != 11 && matrix[hero.getLinea()][hero.getColuna()+1] != '|'|| doorOpen() ){
+>>>>>>> a4b52da4c6eec44298026819556ecd6ddeb46e01
             return true;
         }
         return false;
     }
 
     public boolean canMoveDown() {
+<<<<<<< HEAD
         if(hero.getLinea() != 11 && matrix[hero.getLinea()+1][hero.getColuna()] != '-' && matrix[hero.getLinea()+2][hero.getColuna()] == '.'){
+=======
+        if(hero.getLinea() != 11 && matrix[hero.getLinea()+1][hero.getColuna()] != '-' || doorOpen() ){
+>>>>>>> a4b52da4c6eec44298026819556ecd6ddeb46e01
             return true;
         }
         return false;
@@ -129,24 +142,40 @@ public class MazeState extends State implements Cloneable {
         matrix[hero.getLinea()][hero.getColuna()] = '.';
         matrix[hero.getLinea()-2][hero.getColuna()] = 'H';
         hero.setLinea(hero.getLinea()-2);
+
+        /*matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()-2][mummy.getColuna()] = 'M';
+        mummy.setLinea(mummy.getLinea()-2);*/
     }
 
     public void moveRight() {
         matrix[hero.getLinea()][hero.getColuna()] = '.';
         matrix[hero.getLinea()][hero.getColuna()+2] = 'H';
         hero.setColuna(hero.getColuna()+2);
+
+        /*matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()][mummy.getColuna()+2] = 'M';
+        mummy.setLinea(mummy.getColuna()+2);*/
     }
 
     public void moveDown() {
         matrix[hero.getLinea()][hero.getColuna()] = '.';
         matrix[hero.getLinea()+2][hero.getColuna()] = 'H';
         hero.setLinea(hero.getLinea() + 2);
+
+        /*matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()+2][mummy.getColuna()] = 'M';
+        mummy.setLinea(mummy.getLinea()+2);*/
     }
 
     public void moveLeft() {
         matrix[hero.getLinea()][hero.getColuna()] = '.';
         matrix[hero.getLinea()][hero.getColuna()-2] = 'H';
         hero.setColuna(hero.getColuna()-2);
+
+        /*matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()][mummy.getColuna()-2] = 'M';
+        mummy.setLinea(mummy.getColuna()-2);*/
     }
 
     public void dontMove() {
