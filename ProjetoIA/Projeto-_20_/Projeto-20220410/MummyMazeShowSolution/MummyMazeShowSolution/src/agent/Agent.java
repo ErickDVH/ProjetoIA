@@ -1,5 +1,6 @@
 package agent;
 
+import game.MazeState;
 import searchalgorithms.*;
 
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ public class Agent<E extends State> {
     public void executeSolution() {
         for(Action action : solution.getActions()){
             environment.executeAction(action);
+            //((MazeState) environment).executeActionShowSolution();
         }
     }
     public E getEnvironment() {

@@ -26,7 +26,7 @@ public class MazeProblem extends Problem<MazeState> {
     public List<MazeState> executeActions(MazeState state) {
         ArrayList<MazeState> successors =  new ArrayList<>(4);
         for(Action availableAction : actions){
-            if(availableAction.isValid(state)){
+            if(availableAction.isValid(state) && state.isHero()){
                 MazeState successor = (MazeState) state.clone();
                 successor.executeAction(availableAction);
                 successors.add(successor);

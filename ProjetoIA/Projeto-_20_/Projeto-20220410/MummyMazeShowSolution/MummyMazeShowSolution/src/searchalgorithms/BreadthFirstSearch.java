@@ -3,6 +3,7 @@ package searchalgorithms;
 import agent.Problem;
 import agent.Solution;
 import agent.State;
+import game.MazeState;
 import utils.NodeLinkedList;
 
 import java.util.List;

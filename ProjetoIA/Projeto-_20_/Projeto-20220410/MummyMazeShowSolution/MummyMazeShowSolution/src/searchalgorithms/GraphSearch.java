@@ -41,9 +41,10 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchAlg
             }
             explored.add(node.getState());
             List<State> successors = problem.executeActions(node.getState());
-            addSuccessorsToFrontier(successors,node);
+            addSuccessorsToFrontier(successors, node);
 
             computeStatistics(successors.size());
+
         }
 
         statistics.toString();

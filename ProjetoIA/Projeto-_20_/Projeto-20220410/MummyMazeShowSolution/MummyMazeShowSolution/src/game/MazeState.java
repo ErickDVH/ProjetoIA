@@ -15,8 +15,6 @@ public class MazeState extends State implements Cloneable {
     private String state;
     static LivingThings goalHeroPosition;
     private WhiteMummy mummy;
-    private int[] linesfinalMatrix = {};
-    private int[] colsfinalMatrix ={};
 
     public MazeState(String state){
         this.state = state;
@@ -89,30 +87,33 @@ public class MazeState extends State implements Cloneable {
     public void executeAction(Action action) {
         action.execute(this);
         mazeChanged(null);
+        moveMummy();
+        mazeChanged(null);
+        System.out.println(this);
     }
     public boolean canMoveUp() {
-        if(hero.getLinea() != 1 && matrix[hero.getLinea()-1][hero.getColuna()] != '-' || doorOpen()){
+        if(hero.getLinea() != 1 && matrix[hero.getLinea()-1][hero.getColuna()] != '-' && matrix[hero.getLinea()-2][hero.getColuna()] == '.'){
             return true;
         }
         return false;
     }
 
     public boolean canMoveRight() {
-        if(hero.getColuna() != 11 && matrix[hero.getLinea()][hero.getColuna()+1] != '|' || doorOpen()){
+        if(hero.getColuna() != 11 && matrix[hero.getLinea()][hero.getColuna()+1] != '|' && matrix[hero.getLinea()][hero.getColuna()+2] == '.'){
             return true;
         }
         return false;
     }
 
     public boolean canMoveDown() {
-        if(hero.getLinea() != 11 && matrix[hero.getLinea()+1][hero.getColuna()] != '-' || doorOpen()){
+        if(hero.getLinea() != 11 && matrix[hero.getLinea()+1][hero.getColuna()] != '-' && matrix[hero.getLinea()+2][hero.getColuna()] == '.'){
             return true;
         }
         return false;
     }
 
     public boolean canMoveLeft() {
-        if(hero.getColuna() != 1 && matrix[hero.getLinea()][hero.getColuna()-1] != '|' || doorOpen()){
+        if(hero.getColuna() != 1 && matrix[hero.getLinea()][hero.getColuna()-1] != '|' && matrix[hero.getLinea()][hero.getColuna()-2] == '.'){
             return true;
         }
 
@@ -150,10 +151,105 @@ public class MazeState extends State implements Cloneable {
 
     public void dontMove() {
     }
+
+    public boolean canMoveUpMummy() {
+        if(mummy.getLinea() != 1 && matrix[mummy.getLinea()-1][mummy.getColuna()] != '-'){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canMoveRightMummy() {
+        if(mummy.getColuna() != 11 && matrix[mummy.getLinea()][mummy.getColuna()+1] != '|'){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canMoveDownMummy() {
+        if(mummy.getLinea() != 11 && matrix[mummy.getLinea()+1][mummy.getColuna()] != '-'){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canMoveLeftMummy() {
+        if(mummy.getColuna() != 1 && matrix[mummy.getLinea()][mummy.getColuna()-1] != '|'){
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean cantMoveMummy() {
+        return true;
+    }
+
+
+    public void moveUpMummy() {
+        matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()-2][mummy.getColuna()] = 'M';
+        mummy.setLinea(mummy.getLinea()-2);
+    }
+
+    public void moveRightMummy() {
+        matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()][mummy.getColuna()+2] = 'M';
+        mummy.setColuna(mummy.getColuna()+2);
+    }
+
+    public void moveDownMummy() {
+        matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()+2][mummy.getColuna()] = 'M';
+        mummy.setLinea(mummy.getLinea() + 2);
+    }
+
+    public void moveLeftMummy() {
+        matrix[mummy.getLinea()][mummy.getColuna()] = '.';
+        matrix[mummy.getLinea()][mummy.getColuna()-2] = 'M';
+        mummy.setColuna(mummy.getColuna()-2);
+    }
+
+    public void dontMoveMummy() {
+    }
+
     public boolean doorOpen(){
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 if(matrix[i][j] == '=' || matrix[i][j] == '"'){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public void moveMummy(){
+        if(hero.getColuna() < mummy.getColuna()){
+            if(canMoveLeftMummy()){
+                moveLeftMummy();
+            }
+        }
+        else if(hero.getLinea() < mummy.getLinea()){
+            if(canMoveUpMummy()){
+                moveUpMummy();
+            }
+        }
+        else if(hero.getColuna() > mummy.getColuna()){
+            if(canMoveRightMummy()){
+                moveRightMummy();
+            }
+        }
+
+        else if(hero.getLinea() > mummy.getLinea()){
+            if(canMoveDownMummy()){
+                moveDownMummy();
+            }
+        }
+    }
+    public boolean isHero(){
+        for(int i=0;i<13;i++){
+            for(int j=0;j<13;j++){
+                if(matrix[i][j] == 'H'){
                     return true;
                 }
             }
@@ -217,5 +313,17 @@ public class MazeState extends State implements Cloneable {
             }
         }
         return h;
+    }
+    @Override
+    public String toString() {
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < matrix.length; i++) {
+            buffer.append('\n');
+            for (int j = 0; j < matrix.length; j++) {
+                buffer.append(matrix[i][j]);
+                buffer.append(' ');
+            }
+        }
+        return buffer.toString();
     }
 }
