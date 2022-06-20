@@ -531,6 +531,10 @@ public class MazeState extends State implements Cloneable {
                 }else{
                     if(this.matrix[i][j] !=0 && this.redMummy!=null){
                         h+=Math.abs(hero.getLinea()- redMummy.getLinea()) + Math.abs(hero.getColuna()- redMummy.getColuna());
+                    }else{
+                        if(this.matrix[i][j] !=0 && this.scorpion!=null){
+                            h+=Math.abs(hero.getLinea()- scorpion.getLinea()) + Math.abs(hero.getColuna()- scorpion.getColuna());
+                        }
                     }
                 }
             }
