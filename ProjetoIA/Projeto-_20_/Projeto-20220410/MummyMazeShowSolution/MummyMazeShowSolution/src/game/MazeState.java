@@ -520,6 +520,24 @@ public class MazeState extends State implements Cloneable {
         }
         return h;
     }
+
+    public double computeDistance(LivingThings goalState){
+        double h=0;
+        for (int i = 0;i<matrix.length;i++){
+            for(int j = 0; j<matrix.length;j++){
+
+                if(this.matrix[i][j] !=0 && this.whiteMummy!=null){
+                    h+=Math.abs(hero.getLinea()- whiteMummy.getLinea()) + Math.abs(hero.getColuna()- whiteMummy.getColuna());
+                }else{
+                    if(this.matrix[i][j] !=0 && this.redMummy!=null){
+                        h+=Math.abs(hero.getLinea()- redMummy.getLinea()) + Math.abs(hero.getColuna()- redMummy.getColuna());
+                    }
+                }
+            }
+        }
+        return h;
+    }
+
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();

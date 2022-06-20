@@ -14,6 +14,7 @@ public class MazeAgent extends Agent<MazeState> {
         super(environment);
         initialEnvironment = environment.clone();
         heuristics.add(new HeuristicTilesOutOfPlace());
+        heuristics.add(new HeuristicMummyDistance());
         heuristic = heuristics.get(0);
     }
 

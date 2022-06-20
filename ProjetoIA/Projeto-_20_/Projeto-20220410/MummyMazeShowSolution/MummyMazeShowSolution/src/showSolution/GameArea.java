@@ -1,4 +1,5 @@
 package showSolution;
+import agent.Solution;
 import game.MazeEvent;
 import game.MazeListener;
 import game.MazeState;
@@ -39,6 +40,10 @@ public class GameArea extends JPanel implements MazeListener {
 	private MazeState state;
 	private boolean showSolutionCost;
 	private double solutionCost;
+	private Solution solution;
+
+
+
 	
 	public GameArea(MazeState state){
 		super();
